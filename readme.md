@@ -1,5 +1,9 @@
 # TextImageGenerator
 
+## 预览地址
+
+[点击跳转](https://krapnikkk.github.io/TextImageGenerator/dist/)
+
 ## 使用说明
 
 ## todo
@@ -35,6 +39,6 @@
 - [ ] 内容清空
 
 ### 导出设置
-- [] 图片质量设置
-- [] Bitmap Font高级配置
-- [] 配置导出&导入
+- [ ] 图片质量设置
+- [ ] Bitmap Font高级配置
+- [ ] 配置导出&导入
