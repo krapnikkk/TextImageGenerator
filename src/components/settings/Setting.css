@@ -1,0 +1,86 @@
+.input,
+.basic,
+/* .fontFamily, */
+.textDecoration,
+.textShadow,
+.background {
+    margin: 10px;
+    padding: 10px;
+}
+
+.setting_export {
+    /* display: none; */
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.setting_content>section,
+.setting_preview>section {
+    margin: 10px;
+}
+
+.color,
+.strokeColor,
+.fontFamily,
+.textDecorationStyle,
+.textDecorationColor,
+.bgColor,
+.fontStyle,
+.backgroundClip,
+.texture,
+.textshadow>.textshadowColor,
+.opacity,.bmfont {
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+
+.ant-list-header>span,
+.ant-list-item>span {
+    display: inline-block;
+    width: 40px;
+    height: 10px
+}
+
+.ant-list-header>span {
+    margin-right: 10px;
+}
+
+.ant-list-item>span {
+    margin-right: 25;
+}
+
+/* .setting_preview>section {
+    margin: 10px;
+} */
+
+/* .bgColor,
+.opacity {
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    justify-content: space-between;
+} */
+
+.fontSize,
+.color,
+.fontStyle,
+.fontWeight,
+.letterSpacing,
+.lineHeight,
+.textStroke,
+.textDecorationLine,
+.textDecorationThickness,
+.textDecorationColor,
+.textDecorationStyle,
+.backgroundClip,
+.texture,
+.textStroke,
+.strokeColor {
+    margin-bottom: 10px;
+}
