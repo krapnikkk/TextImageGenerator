@@ -92,7 +92,8 @@ export default class ViewComponent extends React.Component<IProps> {
                                     texture,
                                     contentCSS,
                                     beforeCSS,
-                                    afterCSS
+                                    afterCSS,
+                                    extWords
                                 } = item;
                                 /**custom css */
 
@@ -153,7 +154,7 @@ export default class ViewComponent extends React.Component<IProps> {
                                         lineHeight = "";
                                         // let background = background-image,background-position-x,background-position-y,background-size,background-repeat-x,background-repeat-y,background-attachment,background-origin,background-clip
                                         let background = `${backgroundImage} 0% 0% auto repeat repeat scroll padding-box text`;
-                                        Object.assign(customStyle, { background, color, textShadow,lineHeight });
+                                        Object.assign(customStyle, { background, color, textShadow, lineHeight });
                                     } else {
                                         Object.assign(customStyle, { backgroundClip });
                                     }
@@ -169,7 +170,17 @@ export default class ViewComponent extends React.Component<IProps> {
                                         className = cssSelector;
                                     }
                                 });
-                                return <section suppressContentEditableWarning className={className} contentEditable={true} key={idx} style={customStyle}>{value}</section>
+
+                                if (extWords&&extWords.result&&extWords.result.length>0) {
+                                    let html = "";
+                                    extWords.result.forEach((item:string, idx:number) => {
+                                        let phonetic = item[0];
+                                        let word = value[idx];
+                                        html += `<ruby>${word} <rt>${phonetic == word ? null : phonetic}</rt></ruby>`
+                                    })
+                                    value = html;
+                                }
+                                return <section suppressContentEditableWarning className={className} contentEditable={true} key={idx} style={customStyle} dangerouslySetInnerHTML={{ __html: value }} />
                             })
                         }
                     </section>

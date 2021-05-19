@@ -1,5 +1,6 @@
-.input,
+/* .input, */
 .basic,
+.text,
 /* .fontFamily, */
 .textDecoration,
 .textShadow,
@@ -32,7 +33,10 @@
 .backgroundClip,
 .texture,
 .textshadow>.textshadowColor,
-.opacity,.bmfont {
+.opacity,
+.bmfont,
+.phonetic,
+.phoneticModel {
     display: flex;
     align-items: center;
     flex-direction: row;
@@ -70,6 +74,8 @@
 .fontSize,
 .color,
 .fontStyle,
+.phonetic,
+.phoneticModel,
 .fontWeight,
 .letterSpacing,
 .lineHeight,

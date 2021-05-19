@@ -4,6 +4,8 @@ import { inject, observer } from 'mobx-react'
 import { Button } from 'antd';
 import DomToImage from 'dom-to-image';
 import JSZip from 'jszip';
+import emitter from "@event/index"
+import { EVENT_UPDATE_OPTIONS } from '@constants/constants';
 import FileSaver from 'file-saver';
 import Radio from './component/Radio';
 import { ExportType } from '@enum/index';
@@ -13,6 +15,11 @@ import Switch from './component/Switch';
 @inject('AppStore')
 @observer
 export default class ExportSetting extends React.Component<IProps> {
+    componentWillMount() {
+        emitter.on(EVENT_UPDATE_OPTIONS, () => {
+            this.forceUpdate();
+        })
+    }
     onExport = async () => {
         let { exportType, bmfont } = this.props.AppStore;
         let node: Element,
@@ -47,14 +54,23 @@ export default class ExportSetting extends React.Component<IProps> {
                 let html, clone, childNodesHTML;
                 for (let i = 0; i < nodes.length; i++) {
                     node = nodes[i];
-                    html = node.innerHTML;
+                    let phoneticHTML = node.querySelectorAll('ruby');
                     clone = node.cloneNode(true) as HTMLSelectElement;
-                    childNodesHTML = html.split("");
+                    if(phoneticHTML.length>0){
+                        childNodesHTML = phoneticHTML;
+                    }else{
+                        html = node.innerHTML;
+                        childNodesHTML = html.split("");
+                    }
                     clone.id = "clone";
                     parent?.appendChild(clone);
                     for (let j = 0; j < childNodesHTML.length; j++) {
-                        let word = childNodesHTML[j]
+                        let word = childNodesHTML[j];
+                        if(typeof word !== "string"){
+                            word = `<ruby>${word.innerHTML}</ruby>`;
+                        }
                         clone.innerHTML = word;
+                        clone.style.padding = "10px";
                         data = await this.createPng(clone);
                         let { clientWidth, clientHeight } = clone;
                         let [w, h, id] = [clientWidth, clientHeight, word];

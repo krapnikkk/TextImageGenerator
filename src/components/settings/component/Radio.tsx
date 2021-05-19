@@ -14,7 +14,6 @@ class Radio extends React.Component<IProps> {
     }
     onLabelChange = (e: { [key: string]: any }) => {
         let value = e.target.value;
-        console.log(value);
         this.props.AppStore.updateAttribute(this.type, value);
     };
 

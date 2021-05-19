@@ -19,6 +19,7 @@ class TextArea extends React.Component<IProps> {
 
     addText = () => {
         let value = this.state.value;
+        value = value.replace(/\s+/g,"");
         if (value == "") { antd.message.warning({ content: '请输入你要生成的图片的文字!', duration: 2 });return };
         this.setState({ value: "" });
         this.props.AppStore.updateContent(this.type, value);

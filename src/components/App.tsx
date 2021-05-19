@@ -18,8 +18,11 @@ XMLSerializer.prototype.serializeToString = (node: any, isHtml: any, nodeFilter:
     }else if(string.indexOf(" text rgba(0, 0, 0, 0); ")>-1){ // chrome 90+
       string = string.replace(" text rgba(0, 0, 0, 0);","; -webkit-background-clip: text;");
     }
-    string = string.replace(/(SECTOION)/g,"section");
   }
+  string = string.replace(/(SECTION)/g,"section");
+  string = string.replace(/(RUBY)/g,"ruby");
+  string = string.replace(/(RT)/g,"rt");
+  string = string.replace(/(STYLE)/g,"style");
   return string;
 }
 

@@ -16,6 +16,7 @@ import * as antd from 'antd';
 import Modal from './component/Modal';
 import Gradient from './component/Gradient';
 import FontMenu from './component/FontMenu';
+import Switch from './component/Switch';
 
 // const rootSubmenuKeys = ['sub0', 'sub1', 'sub2', 'sub3', 'sub4'];
 const defaultOpenKeys = ['sub0'];
@@ -45,22 +46,57 @@ export default class ContentSetting extends React.Component<IProps> {
             fontWeight, fontSize, fontStyle,
             fontFamily, fontFamilyList, styleData,
             textDecorationStyle, textDecorationThickness, backgroundClip,
-            text } = this.props.AppStore;
+            text, phonetic, phoneticModel, phoneticData } = this.props.AppStore;
         return (
             <nav className="text">
                 <antd.Menu mode="inline" defaultOpenKeys={defaultOpenKeys}>
+
                     {
                         text == ""
                             ? <antd.Menu.SubMenu key="sub0" title="内容设置">
-                                <section className="input">
-                                    <TextArea type={"text"} rows={3} minRows={3} maxRows={5} placeholder="请输入你要生成的图片的文字" title="添加内容" />
+                                <section className="text">
+                                    <section className="phonetic">
+                                        <h4>注音设置：</h4>
+                                        <Switch type={"phonetic"} />
+                                    </section>
+                                    {
+                                        phonetic
+                                            ?
+                                            <section className="phoneticModel">
+                                                <h4>注音模式：</h4>
+                                                <Radio type={"phoneticModel"} value={phoneticModel} data={phoneticData} />
+                                            </section>
+                                            :
+                                            null
+                                    }
+                                    <section className="input">
+                                        <h4>文本内容：</h4>
+                                        <TextArea type={"text"} rows={3} minRows={3} maxRows={5} placeholder="请输入你要生成的图片的文字" title="添加内容" />
+                                    </section>
                                 </section>
                             </antd.Menu.SubMenu>
                             :
                             <>
                                 <antd.Menu.SubMenu key="sub0" title="内容设置">
-                                    <section className="input">
-                                        <TextArea type={"text"} rows={3} minRows={3} maxRows={5} placeholder="请输入你要生成的图片的文字" title="添加内容" />
+                                    <section className="text">
+                                        <section className="phonetic">
+                                            <h4>注音设置：</h4>
+                                            <Switch type={"phonetic"} />
+                                        </section>
+                                        {
+                                            phonetic
+                                                ?
+                                                <section className="phoneticModel">
+                                                    <h4>注音模式：</h4>
+                                                    <Radio type={"phoneticModel"} value={phoneticModel} data={phoneticData} />
+                                                </section>
+                                                :
+                                                null
+                                        }
+                                        <section className="input">
+                                            <h4>文本内容：</h4>
+                                            <TextArea type={"text"} rows={3} minRows={3} maxRows={5} placeholder="请输入你要生成的图片的文字" title="添加内容" />
+                                        </section>
                                     </section>
                                 </antd.Menu.SubMenu>
 

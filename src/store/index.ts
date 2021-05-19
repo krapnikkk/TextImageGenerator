@@ -5,6 +5,7 @@ import { EVENT_UPDATE_OPTIONS, EVENT_UPDATE_VIEW } from '@constants/constants';
 import { storage } from '@utils/storage';
 import { FontFamilyItem, GradientItem, TextShadowItem } from '@interface/index';
 import { ExportType } from "@enum/index";
+import { getPhonetic } from '@utils/getPhonetic';
 
 class AppStore {
     @observable fontSize: number = 16;
@@ -41,7 +42,7 @@ class AppStore {
     @observable textDecorationLine: string[] = [];
     @observable textDecorationThickness: number = 1;
     @observable viewWidth: number = window.innerWidth * 0.4;
-    @observable contentData: { [key: string]: string | number | string[] | number[] | TextShadowItem[] | GradientItem[] }[] = [];
+    @observable contentData: { [key: string]: string | number | string[] | number[] | TextShadowItem[] | GradientItem[] | undefined }[] = [];
     @observable currentIndex: number = -1;
     @observable textAlign: number = 1;
     @observable alignData = [{ label: 1, value: "居左" }, { label: 2, value: "居中" }, { label: 3, value: "居右" }];
@@ -51,6 +52,11 @@ class AppStore {
     @observable textStroke: number = 0;
     @observable fontStyle: number = 1;
     @observable styleData = [{ label: 1, value: "normal", text: "标准" }, { label: 2, value: "oblique", text: "斜体" }];
+
+    @observable phonetic: boolean = false;//注音模式
+    @observable phoneticModel: number = 1;
+    @observable phoneticData = [{ label: 1, value: "pinyin", text: "拼音音标" }];
+
     @observable fontWeight: number = 400;
     @observable letterSpacing: number = 0;
     @observable lineHeight: number = 1.2;
@@ -84,14 +90,14 @@ class AppStore {
         "textDecorationThickness", "texture",
         "textShadowColor", "textShadowOffsetX", "textShadowOffsetY", "textShadowOffsetBlurRadius",
         "gradient", "backgroundClip", "backgroundClipList",
-        "exportType", "bmfont",
+        "exportType", "bmfont", "phonetic",
         "afterCSS", "contentCSS", "beforeCSS"
     ];
     typeSort = (type: string): boolean => {
         return this.viewAttributes.includes(type);
     }
 
-    @action updateContent = (type: string, value: string): void => {
+    @action updateContent = async(type: string, value: string) => {
         if (type != "text") {
             this.updateAttribute(type, value);
         } else {
@@ -104,8 +110,13 @@ class AppStore {
                 textShadowColor, textShadowOffsetX, textShadowOffsetY, textShadowOffsetBlurRadius,
                 textShadowList, currentIndex, fontFamily,
                 gradient, backgroundClip,
-                afterCSS, contentCSS, beforeCSS } = this;
+                afterCSS, contentCSS, beforeCSS, phonetic,phoneticData,phoneticModel } = this;
 
+            let extWords;
+            if (phonetic) {
+                let model = phoneticData[phoneticModel-1];
+                extWords = await getPhonetic(value,model.value) as any;
+            }
             this.contentData.push({
                 index: currentIndex + 1,
                 value, fontSize, color,
@@ -116,14 +127,16 @@ class AppStore {
                 textShadowColor, textShadowOffsetX, textShadowOffsetY, textShadowOffsetBlurRadius,
                 gradient, backgroundClip,
                 textShadowList, fontFamily,
-                lineHeight, afterCSS, contentCSS, beforeCSS
+                lineHeight, afterCSS, contentCSS, beforeCSS,
+                extWords
             });
             this.currentIndex = this.contentData.length - 1;
 
             emitter.emit(EVENT_UPDATE_OPTIONS);
         }
     }
-    
+
+
     @action clearContent() {
         this.currentIndex = -1;
         this.contentData = [];
